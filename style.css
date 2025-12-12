@@ -37,3 +37,19 @@ td ,th{
 #schedule{
     z-index: 100;
 }
+.viewlist{
+    margin: 10px;
+}
+.delete{
+    margin-left: 8px;
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 3px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.delete:hover{
+    opacity: 0.9;
+}

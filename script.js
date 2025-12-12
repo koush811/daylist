@@ -11,7 +11,28 @@ let correntmonth = day.getMonth();
 let date = 0
 let selectDate = null
 
-const schedules = {}
+const STORAGE_KEY = 'daylist_schedules_v1'
+let schedules = {}
+
+function loadSchedules(){
+    try{
+        const raw = localStorage.getItem(STORAGE_KEY)
+        if(raw){
+            schedules = JSON.parse(raw)
+        }
+    }catch(e){
+        console.error('loadSchedules error', e)
+        schedules = {}
+    }
+}
+
+function saveSchedules(){
+    try{
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(schedules))
+    }catch(e){
+        console.error('saveSchedules error', e)
+    }
+}
 
 function showcalender(year,month){
     inputyear.textContent = `${year}年${month+1}月`
@@ -46,6 +67,12 @@ function showcalender(year,month){
             showSchedule(selectDate)  
         }
 
+        // add marker if schedules exist for this date
+        const key = `${year}-${String(month +1).padStart(2,"0")}-${String(date).padStart(2,"0")}`
+        if(schedules[key] && schedules[key].length > 0){
+            td.classList.add('has-schedule')
+        }
+
         dayElement.appendChild(td)
 
         if((firstday + date -1)%7 === 6){
@@ -62,10 +89,12 @@ function showcalender(year,month){
 
 function showSchedule(datekey){
     scheduledisplay.innerHTML = ""
-    if(schedules[datekey]){
+    if(schedules[datekey] && schedules[datekey].length > 0){
         scheduledisplay.innerHTML = schedules[datekey]
-        .map((item ,idx) => `<div>${idx+1}.${item}</div>`)
+        .map((item ,idx) => `<div class="viewlist">${idx+1}. ${item} <button class="delete" data-idx="${idx}">削除</button></div>`)
         .join("");
+    } else {
+        scheduledisplay.innerHTML = '<div>予定はありません</div>'
     }
 }
 
@@ -79,8 +108,26 @@ btn.onclick = () => {
     }
     schedules[selectDate].push(text)
     input.value = ""
+    saveSchedules()
     showSchedule(selectDate)
+    showcalender(correntyear,correntmonth)
 }
+
+scheduledisplay.addEventListener('click', (e) => {
+    if(!selectDate) return
+    if(e.target && e.target.matches('.delete')){
+        const idx = Number(e.target.dataset.idx)
+        if(!isNaN(idx) && schedules[selectDate]){
+            schedules[selectDate].splice(idx,1)
+            if(schedules[selectDate].length === 0){
+                delete schedules[selectDate]
+            }
+            saveSchedules()
+            showSchedule(selectDate)
+            showcalender(correntyear,correntmonth)
+        }
+    }
+})
 
 
 
@@ -102,4 +149,5 @@ document.getElementById('prev').onclick=()=>{
     showcalender(correntyear,correntmonth)
 }
 
+loadSchedules()
 showcalender(correntyear,correntmonth)
