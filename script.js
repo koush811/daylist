@@ -3,7 +3,7 @@ const inputtable = document.getElementById('table')
 const datedisplay = document.getElementById('date')
 const scheduledisplay = document.getElementById('schedule')
 const input = document.querySelector('input')
-const btn = document.querySelector('button')
+const btn = document.getElementById('btn')
 
 let day = new Date();
 let correntyear = day.getFullYear();
@@ -103,6 +103,3 @@ document.getElementById('prev').onclick=()=>{
 }
 
 showcalender(correntyear,correntmonth)
-
-
-
