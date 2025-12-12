@@ -33,3 +33,7 @@ td ,th{
     flex-direction: column;
     padding: 10px;
 }
+
+#schedule{
+    z-index: 100;
+}

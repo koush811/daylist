@@ -1,10 +1,17 @@
 const inputyear = document.getElementById('year')
 const inputtable = document.getElementById('table')
+const datedisplay = document.getElementById('date')
+const scheduledisplay = document.getElementById('schedule')
+const input = document.querySelector('input')
+const btn = document.querySelector('button')
 
 let day = new Date();
 let correntyear = day.getFullYear();
 let correntmonth = day.getMonth();
 let date = 0
+let selectDate = null
+
+const schedules = {}
 
 function showcalender(year,month){
     inputyear.textContent = `${year}年${month+1}月`
@@ -25,14 +32,22 @@ function showcalender(year,month){
 
     let dayElement = document.createElement("tr")
 
-    for(let i = 1;i < firstday;i++){
-        const td = document.createElement("td")
-        dayElement.appendChild(td)
+    for(let i = 0;i < firstday;i++){
+        dayElement.appendChild(document.createElement("td"))
     }
-    for(let date = 0;date <= lastData; date++){
+
+    for(let date = 1;date <= lastData; date++){
         const td = document.createElement("td")
         td.textContent = date;
+
+        td.onclick = () => {
+            selectDate = `${year}-${String(month +1).padStart(2,"0")}-${String(date).padStart(2,"0")}`
+            datedisplay.textContent = selectDate   
+            showSchedule(selectDate)  
+        }
+
         dayElement.appendChild(td)
+
         if((firstday + date -1)%7 === 6){
             inputtable.appendChild(dayElement)
             dayElement = document.createElement("tr")
@@ -44,6 +59,30 @@ function showcalender(year,month){
         inputtable.appendChild(dayElement)
     }
 }
+
+function showSchedule(datekey){
+    scheduledisplay.innerHTML = ""
+    if(schedules[datekey]){
+        scheduledisplay.innerHTML = schedules[datekey]
+        .map((item ,idx) => `<div>${idx+1}.${item}</div>`)
+        .join("");
+    }
+}
+
+btn.onclick = () => {
+    if(!selectDate)return;
+    const text = input.value.trim()
+    if(text === "")return;
+
+    if(!schedules[selectDate]){
+        schedules[selectDate] = []
+    }
+    schedules[selectDate].push(text)
+    input.value = ""
+    showSchedule(selectDate)
+}
+
+
 
 document.getElementById('next').onclick=()=>{
     correntmonth++
@@ -65,4 +104,5 @@ document.getElementById('prev').onclick=()=>{
 
 showcalender(correntyear,correntmonth)
 
-document.getElementById('date').textContent = `${correntyear}年${correntmonth}月`
+
+
