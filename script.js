@@ -4,6 +4,7 @@ const inputtable = document.getElementById('table')
 let day = new Date();
 let correntyear = day.getFullYear();
 let correntmonth = day.getMonth();
+let date = 0
 
 function showcalender(year,month){
     inputyear.textContent = `${year}年${month+1}月`
@@ -11,30 +12,37 @@ function showcalender(year,month){
     const firstday = new Date(year,month,1).getDay();
     const lastData = new Date(year,month+1,0).getDate();
 
-    let html = 
-    `<tr>
-      <th>日</th><th>月</th><th>火</th><th>水</th>
-      <th>木</th><th>金</th><th>土</th>
-    </tr>`
+    inputtable.innerHTML = ""
 
-    let row = "<tr>"
+    const header = document.createElement("tr")
+    const days = ["日","月","火","水","木","金","土"]
+    days.forEach(i =>{
+        const th = document.createElement("th")
+        th.textContent = i
+        header.appendChild(th)
+    })
+    inputtable.appendChild(header)
 
-    for(let i = 0;i < firstday; i++){
-        row += "<td></td>"
+    let dayElement = document.createElement("tr")
+
+    for(let i = 1;i < firstday;i++){
+        const td = document.createElement("td")
+        dayElement.appendChild(td)
     }
-
-    for(let date = 1; date<=lastData;date++){
-        if((firstday+date-1)%7 === 0 && date !=1){
-            row += "<tr></tr>"
+    for(let date = 0;date <= lastData; date++){
+        const td = document.createElement("td")
+        td.textContent = date;
+        dayElement.appendChild(td)
+        if((firstday + date -1)%7 === 6){
+            inputtable.appendChild(dayElement)
+            dayElement = document.createElement("tr")
+            
         }
-        row += `<td>${date}</td>`
     }
 
-    row += "</tr>"
-    html += row
-
-    inputtable.innerHTML = html
-
+    if(dayElement.children.length > 0){
+        inputtable.appendChild(dayElement)
+    }
 }
 
 document.getElementById('next').onclick=()=>{
@@ -56,3 +64,5 @@ document.getElementById('prev').onclick=()=>{
 }
 
 showcalender(correntyear,correntmonth)
+
+document.getElementById('date').textContent = `${correntyear}年${correntmonth}月`
