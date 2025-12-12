@@ -1,9 +1,17 @@
 const inputyear = document.getElementById('year')
 const inputtable = document.getElementById('table')
+const datedisplay = document.getElementById('date')
+const scheduledisplay = document.getElementById('schedule')
+const input = document.querySelector('input')
+const btn = document.querySelector('button')
 
 let day = new Date();
 let correntyear = day.getFullYear();
 let correntmonth = day.getMonth();
+let date = 0
+let selectDate = null
+
+const schedules = {}
 
 function showcalender(year,month){
     inputyear.textContent = `${year}年${month+1}月`
@@ -11,31 +19,70 @@ function showcalender(year,month){
     const firstday = new Date(year,month,1).getDay();
     const lastData = new Date(year,month+1,0).getDate();
 
-    let html = 
-    `<tr>
-      <th>日</th><th>月</th><th>火</th><th>水</th>
-      <th>木</th><th>金</th><th>土</th>
-    </tr>`
+    inputtable.innerHTML = ""
 
-    let row = "<tr>"
+    const header = document.createElement("tr")
+    const days = ["日","月","火","水","木","金","土"]
+    days.forEach(i =>{
+        const th = document.createElement("th")
+        th.textContent = i
+        header.appendChild(th)
+    })
+    inputtable.appendChild(header)
 
-    for(let i = 0;i < firstday; i++){
-        row += "<td></td>"
+    let dayElement = document.createElement("tr")
+
+    for(let i = 0;i < firstday;i++){
+        dayElement.appendChild(document.createElement("td"))
     }
 
-    for(let date = 1; date<=lastData;date++){
-        if((firstday+date-1)%7 === 0 && date !=1){
-            row += "<tr></tr>"
+    for(let date = 1;date <= lastData; date++){
+        const td = document.createElement("td")
+        td.textContent = date;
+
+        td.onclick = () => {
+            selectDate = `${year}-${String(month +1).padStart(2,"0")}-${String(date).padStart(2,"0")}`
+            datedisplay.textContent = selectDate   
+            showSchedule(selectDate)  
         }
-        row += `<td>${date}</td>`
+
+        dayElement.appendChild(td)
+
+        if((firstday + date -1)%7 === 6){
+            inputtable.appendChild(dayElement)
+            dayElement = document.createElement("tr")
+            
+        }
     }
 
-    row += "</tr>"
-    html += row
-
-    inputtable.innerHTML = html
-
+    if(dayElement.children.length > 0){
+        inputtable.appendChild(dayElement)
+    }
 }
+
+function showSchedule(datekey){
+    scheduledisplay.innerHTML = ""
+    if(schedules[datekey]){
+        scheduledisplay.innerHTML = schedules[datekey]
+        .map((item ,idx) => `<div>${idx+1}.${item}</div>`)
+        .join("");
+    }
+}
+
+btn.onclick = () => {
+    if(!selectDate)return;
+    const text = input.value.trim()
+    if(text === "")return;
+
+    if(!schedules[selectDate]){
+        schedules[selectDate] = []
+    }
+    schedules[selectDate].push(text)
+    input.value = ""
+    showSchedule(selectDate)
+}
+
+
 
 document.getElementById('next').onclick=()=>{
     correntmonth++
@@ -56,3 +103,6 @@ document.getElementById('prev').onclick=()=>{
 }
 
 showcalender(correntyear,correntmonth)
+
+
+
