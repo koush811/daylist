@@ -6,8 +6,8 @@ const input = document.querySelector('input')
 const btn = document.getElementById('btn')
 
 let day = new Date();
-let correntyear = day.getFullYear();
-let correntmonth = day.getMonth();
+let currentyear = day.getFullYear();
+let currentmonth = day.getMonth();
 let date = 0
 let selectDate = null
 
@@ -67,7 +67,6 @@ function showcalender(year,month){
             showSchedule(selectDate)  
         }
 
-        // add marker if schedules exist for this date
         const key = `${year}-${String(month +1).padStart(2,"0")}-${String(date).padStart(2,"0")}`
         if(schedules[key] && schedules[key].length > 0){
             td.classList.add('has-schedule')
@@ -110,7 +109,7 @@ btn.onclick = () => {
     input.value = ""
     saveSchedules()
     showSchedule(selectDate)
-    showcalender(correntyear,correntmonth)
+    showcalender(currentyear,currentmonth)
 }
 
 scheduledisplay.addEventListener('click', (e) => {
@@ -124,7 +123,7 @@ scheduledisplay.addEventListener('click', (e) => {
             }
             saveSchedules()
             showSchedule(selectDate)
-            showcalender(correntyear,correntmonth)
+            showcalender(currentyear,currentmonth)
         }
     }
 })
@@ -137,17 +136,17 @@ document.getElementById('next').onclick=()=>{
         correntmonth = 0
         correntyear++
     }
-    showcalender(correntyear,correntmonth)
+    showcalender(currentyear,currentmonth)
 }
 
 document.getElementById('prev').onclick=()=>{
-    correntmonth--
-    if(correntmonth < 0){
-        correntmonth = 11
-        correntyear--
+    currentmonth--
+    if(currentmonth < 0){
+        currentmonth = 11
+        currentyear--
     }
-    showcalender(correntyear,correntmonth)
+    showcalender(currentyear,currentmonth)
 }
 
 loadSchedules()
-showcalender(correntyear,correntmonth)
+showcalender(currentyear,currentmonth)
