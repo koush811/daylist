@@ -1,6 +1,8 @@
 const inputyear = document.getElementById('year')
 const inputtable = document.getElementById('table')
 const datedisplay = document.getElementById('date')
+const list = document.getElementById('list')
+const closebtn = document.getElementById('close')
 const scheduledisplay = document.getElementById('schedule')
 const input = document.querySelector('input')
 const btn = document.getElementById('btn')
@@ -69,10 +71,16 @@ function showcalender(year,month){
         td.textContent = date;
 
         td.onclick = () => {
+
             selectDate = `${year}-${String(month +1).padStart(2,"0")}-${String(date).padStart(2,"0")}`
+            list.style.display = "flex"
             datedisplay.textContent = selectDate   
             showSchedule(selectDate)  
         }
+
+        closebtn.addEventListener('click',()=>{
+            list.style.display = "none"
+        })
 
         const key = `${year}-${String(month +1).padStart(2,"0")}-${String(date).padStart(2,"0")}`
         if(schedules[key] && schedules[key].length > 0){

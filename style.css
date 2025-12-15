@@ -29,7 +29,7 @@ td ,th{
 #list{
     
     background-color: gainsboro;
-    display: flex;
+    display: none;
     flex-direction: column;
     padding: 10px;
 }
