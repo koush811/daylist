@@ -48,6 +48,13 @@ function showcalender(year,month){
         const th = document.createElement("th")
         th.textContent = i
         header.appendChild(th)
+        if(th.textContent == "日"){
+            th.style.color = "red"
+        }
+        if(th.textContent == "土"){
+            th.style.color = "blue"
+        }
+
     })
     inputtable.appendChild(header)
 
@@ -90,7 +97,7 @@ function showSchedule(datekey){
     scheduledisplay.innerHTML = ""
     if(schedules[datekey] && schedules[datekey].length > 0){
         scheduledisplay.innerHTML = schedules[datekey]
-        .map((item ,idx) => `<div class="viewlist">${idx+1}. ${item} <button class="delete" data-idx="${idx}">削除</button></div>`)
+        .map((item ,idx) => `<div class="viewlist">${idx+1} ${item} <button class="delete" data-idx="${idx}">削除</button></div>`)
         .join("");
     } else {
         scheduledisplay.innerHTML = '<div>予定はありません</div>'
@@ -131,10 +138,10 @@ scheduledisplay.addEventListener('click', (e) => {
 
 
 document.getElementById('next').onclick=()=>{
-    correntmonth++
-    if(correntmonth > 11){
-        correntmonth = 0
-        correntyear++
+    currentmonth++
+    if(currentmonth > 11){
+        currentmonth = 0
+        currentyear++
     }
     showcalender(currentyear,currentmonth)
 }
