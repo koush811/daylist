@@ -6,12 +6,20 @@ const closebtn = document.getElementById('close')
 const scheduledisplay = document.getElementById('schedule')
 const input = document.querySelector('input')
 const btn = document.getElementById('btn')
+const serchyear = document.getElementById('serchyear')
+const serchmonth = document.getElementById('serchmonth')
+const serchdate = document.getElementById('serchdate')
 
 let day = new Date();
 let currentyear = day.getFullYear();
 let currentmonth = day.getMonth();
 let date = 0
 let selectDate = null
+
+serchyear.value = currentyear;
+serchmonth.value = currentmonth + 1;
+serchdate.value = date + 1;
+
 
 const STORAGE_KEY = 'daylist_schedules_v1'
 let schedules = {}
@@ -42,7 +50,7 @@ function showcalender(year,month){
     const firstday = new Date(year,month,1).getDay();
     const lastData = new Date(year,month+1,0).getDate();
 
-    inputtable.innerHTML = ""
+    inputtable.innerHTML = "";
 
     const header = document.createElement("tr")
     const days = ["日","月","火","水","木","金","土"]
@@ -74,7 +82,10 @@ function showcalender(year,month){
 
             selectDate = `${year}-${String(month +1).padStart(2,"0")}-${String(date).padStart(2,"0")}`
             list.style.display = "flex"
-            datedisplay.textContent = selectDate   
+            datedisplay.textContent = selectDate
+            console.log(`click ${date}`)
+            document.querySelectorAll('#table td').forEach(cell => cell.style.borderColor = 'black')
+            td.style.borderColor = "red"
             showSchedule(selectDate)  
         }
 
@@ -147,6 +158,7 @@ scheduledisplay.addEventListener('click', (e) => {
 
 document.getElementById('next').onclick=()=>{
     currentmonth++
+    serchmonth.value = currentmonth + 1;
     if(currentmonth > 11){
         currentmonth = 0
         currentyear++
@@ -156,11 +168,18 @@ document.getElementById('next').onclick=()=>{
 
 document.getElementById('prev').onclick=()=>{
     currentmonth--
+    serchmonth.value = currentmonth;
     if(currentmonth < 0){
         currentmonth = 11
         currentyear--
     }
     showcalender(currentyear,currentmonth)
+}
+
+document.getElementById('serchbtn').onclick=()=>{
+    if(!serchdate||!serchmonth||!serchyear) return;
+
+
 }
 
 loadSchedules()

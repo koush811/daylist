@@ -32,6 +32,7 @@ td ,th{
     display: none;
     flex-direction: column;
     padding: 10px;
+    gap: 10px;
 }
 
 #schedule{
