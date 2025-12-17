@@ -27,7 +27,6 @@ td ,th{
 }
 
 #list{
-    
     background-color: gainsboro;
     display: none;
     flex-direction: column;

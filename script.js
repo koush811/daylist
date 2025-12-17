@@ -4,7 +4,7 @@ const datedisplay = document.getElementById('date')
 const list = document.getElementById('list')
 const closebtn = document.getElementById('close')
 const scheduledisplay = document.getElementById('schedule')
-const input = document.querySelector('input')
+const input = document.getElementById('schedule-input')
 const btn = document.getElementById('btn')
 const serchyear = document.getElementById('serchyear')
 const serchmonth = document.getElementById('serchmonth')
@@ -15,11 +15,6 @@ let currentyear = day.getFullYear();
 let currentmonth = day.getMonth();
 let date = 0
 let selectDate = null
-
-serchyear.value = currentyear;
-serchmonth.value = currentmonth + 1;
-serchdate.value = date + 1;
-
 
 const STORAGE_KEY = 'daylist_schedules_v1'
 let schedules = {}
@@ -135,7 +130,11 @@ btn.onclick = () => {
     input.value = ""
     saveSchedules()
     showSchedule(selectDate)
-    showcalender(currentyear,currentmonth)
+    
+    const[y,m] = selectDate.split('-')
+    const year = parseInt(y)
+    const month = parseInt(m)-1
+    showcalender(year,month)
 }
 
 scheduledisplay.addEventListener('click', (e) => {
@@ -155,10 +154,9 @@ scheduledisplay.addEventListener('click', (e) => {
 })
 
 
-
 document.getElementById('next').onclick=()=>{
     currentmonth++
-    serchmonth.value = currentmonth + 1;
+
     if(currentmonth > 11){
         currentmonth = 0
         currentyear++
@@ -168,7 +166,7 @@ document.getElementById('next').onclick=()=>{
 
 document.getElementById('prev').onclick=()=>{
     currentmonth--
-    serchmonth.value = currentmonth;
+
     if(currentmonth < 0){
         currentmonth = 11
         currentyear--
@@ -177,8 +175,25 @@ document.getElementById('prev').onclick=()=>{
 }
 
 document.getElementById('serchbtn').onclick=()=>{
-    if(!serchdate||!serchmonth||!serchyear) return;
+    Search()
+}
 
+function Search(){
+    const date = parseInt(serchdate.value);
+    const month = parseInt(serchmonth.value);
+    const year = parseInt(serchyear.value);
+
+    if(isNaN(year)||isNaN(month)||isNaN(date)) return;
+
+    currentyear = year
+    currentmonth = month - 1
+
+    showcalender(currentyear,currentmonth)
+
+
+    selectDate = `${year}-${String(month).padStart(2,"0")}-${String(date).padStart(2,"0")}`
+    datedisplay.textContent = selectDate;
+    showSchedule(selectDate);
 
 }
 
