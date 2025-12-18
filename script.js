@@ -211,6 +211,11 @@ function Search(){
 
     if(isNaN(year)||isNaN(month)||isNaN(date)) return;
 
+    if(month < 1 || month > 12 || date < 1 || date > 31){
+        alert('error')
+        return
+    }
+
     currentyear = year
     currentmonth = month - 1
 
