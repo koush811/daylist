@@ -108,14 +108,40 @@ function showcalender(year,month){
 }
 
 function showSchedule(datekey){
-    scheduledisplay.innerHTML = ""
+    /*scheduledisplay.innerHTML = ""
     if(schedules[datekey] && schedules[datekey].length > 0){
         scheduledisplay.innerHTML = schedules[datekey]
         .map((item ,idx) => `<div class="viewlist">${idx+1} ${item} <button class="delete" data-idx="${idx}">削除</button></div>`)
         .join("");
     } else {
         scheduledisplay.innerHTML = '<div>予定はありません</div>'
-    }
+    }*/
+   while(scheduledisplay.firstChild){
+    scheduledisplay.removeChild(scheduledisplay.firstChild)
+   }
+
+    if(schedules[datekey] && schedules[datekey].length > 0){
+        schedules[datekey].forEach((item,idx) => {
+            const div = document.createElement('div')
+            div.className = "viewlist"
+
+            const text = document.createElement('span')
+            text.textContent = `${idx + 1} ${item}`
+
+            const deletebtn = document.createElement('button')
+            deletebtn.className = "delete"
+            deletebtn.textContent = "削除"
+            deletebtn.dataset.idx = idx
+
+            div.appendChild(text)
+            div.appendChild(deletebtn)
+            scheduledisplay.appendChild(div)
+        })
+    }else{
+        const div = document.createElement('div')
+        div.textContent = "予定はありません"
+        scheduledisplay.appendChild(div)
+    }   
 }
 
 btn.onclick = () => {
@@ -194,7 +220,13 @@ function Search(){
     selectDate = `${year}-${String(month).padStart(2,"0")}-${String(date).padStart(2,"0")}`
     datedisplay.textContent = selectDate;
     showSchedule(selectDate);
-
+    document.querySelectorAll('#table td').forEach(cell => {
+        if(cell.textContent == date){
+            cell.style.borderColor = 'red'
+        } else {
+            cell.style.borderColor = 'black'
+        }
+    })
 }
 
 loadSchedules()
