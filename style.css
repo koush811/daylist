@@ -1,55 +1,306 @@
-body{
+/* ========== Base Styles ========== */
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Hiragino Sans', 'Meiryo', sans-serif;
     height: 100vh;
     max-width: 100vw;
     display: grid;
-    grid-template-columns: 70% 30%;
+    grid-template-columns: 1fr 380px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #333;
 }
 
-#calender{
+/* ========== Calendar Section ========== */
+#calender {
     height: 100%;
-    grid-column: 1/2;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 40px;
 }
 
-#header{
+#header {
     display: flex;
-    gap: 10px;
-    top: 20px;
-    position: fixed;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
 }
 
-td ,th{
-    border: solid black 1px;
-    padding: 20px;
+#year {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-#list{
-    background-color: gainsboro;
+#header button {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+#header button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+#main {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+/* ========== Table Styles ========== */
+#table {
+    border-collapse: separate;
+    border-spacing: 8px;
+}
+
+th {
+    padding: 12px 20px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #666;
+}
+
+th:first-child {
+    color: #e74c3c;
+}
+
+th:last-child {
+    color: #3498db;
+}
+
+td {
+    padding: 18px 22px;
+    text-align: center;
+    border-radius: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: #f8f9fa;
+    border: none;
+}
+
+td:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+td:first-child {
+    color: #e74c3c;
+}
+
+td:last-child {
+    color: #3498db;
+}
+
+td:first-child:hover,
+td:last-child:hover {
+    color: #fff;
+}
+
+/* ========== List Panel ========== */
+#list {
+    background: linear-gradient(180deg, #ffffff 0%, #f5f7fa 100%);
     display: none;
     flex-direction: column;
-    padding: 10px;
+    padding: 30px;
+    gap: 20px;
+    box-shadow: -5px 0 30px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+}
+
+#close {
+    align-self: flex-end;
+    background: transparent;
+    color: #666;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+#close:hover {
+    background: #f0f0f0;
+    color: #333;
+}
+
+/* ========== Search Section ========== */
+#serch {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 12px;
+}
+
+#serch input {
+    width: 70px;
+    padding: 10px 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+#serch input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}
+
+#serchbtn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#serchbtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+/* ========== Date Display ========== */
+#date {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333;
+    padding: 10px 0;
+    border-bottom: 2px solid #eee;
+}
+
+/* ========== Schedule Section ========== */
+#schedule {
+    z-index: 100;
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
     gap: 10px;
 }
 
-#schedule{
-    z-index: 100;
-}
-.viewlist{
-    margin: 10px;
-}
-.delete{
-    margin-left: 8px;
-    background-color: #e74c3c;
-    color: #fff;
-    border: none;
-    padding: 3px;
-    border-radius: 4px;
-    cursor: pointer;
+.viewlist {
+    background: #fff;
+    margin: 0;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s ease;
+    border-left: 4px solid #667eea;
 }
 
-.delete:hover{
-    opacity: 0.9;
+.viewlist:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.delete {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.delete:hover {
+    transform: scale(1.05);
+    box-shadow: 0 3px 10px rgba(231, 76, 60, 0.4);
+}
+
+/* ========== Input Section ========== */
+#schedule-input {
+    padding: 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+#schedule-input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}
+
+#btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    border: none;
+    padding: 15px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+#btn:active {
+    transform: translateY(0);
+}
+
+/* ========== Responsive Design ========== */
+@media (max-width: 900px) {
+    body {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr auto;
+    }
+
+    #list {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 60vh;
+        border-radius: 20px 20px 0 0;
+        box-shadow: 0 -5px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    #calender {
+        padding: 20px;
+    }
+
+    td {
+        padding: 12px 14px;
+    }
 }
